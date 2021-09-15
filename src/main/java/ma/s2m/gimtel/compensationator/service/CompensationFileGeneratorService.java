@@ -47,7 +47,7 @@ public class CompensationFileGeneratorService {
 
     public void handle() throws Exception{
         FileWriter writer = new FileWriter("C:\\Users\\Dell\\Documents\\outputGimtelCompensation\\output.csv");
-        headerSectionProcessorContext.process(writer,"v1");
+        headerSectionProcessorContext.process(writer);
         writer.close();
     }
 

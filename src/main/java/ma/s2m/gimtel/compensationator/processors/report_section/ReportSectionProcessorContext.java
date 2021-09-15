@@ -15,7 +15,7 @@ public class ReportSectionProcessorContext implements CompensationChainGenerator
 
 
     public ReportSectionProcessorContext(@Value("${compensation.version}") String version, ApplicationContext context){
-        reportSectionProcessorStrategy = (ReportSectionProcessorStrategy)context.getBean(version + "ReportSectionProcessorStrategy");
+        reportSectionProcessorStrategy = (ReportSectionProcessorStrategy)context.getBean("v" + version + "ReportSectionProcessorStrategy");
     }
 
 
@@ -26,10 +26,10 @@ public class ReportSectionProcessorContext implements CompensationChainGenerator
 
 
     @Override
-    public void process(FileWriter writer, String version) throws Exception{
+    public void process(FileWriter writer) throws Exception{
         this.reportSectionProcessorStrategy.execute(writer);
         if(next != null)
-         next.process(writer,version);
+         next.process(writer);
 
     }
 

@@ -15,7 +15,7 @@ public class FeeSectionProcessorContext implements CompensationChainGenerator {
 
 
     public FeeSectionProcessorContext(@Value("${compensation.version}") String version, ApplicationContext context){
-        feeSectionProcessorStrategy = (FeeSectionProcessorStrategy)context.getBean(version + "FeeSectionProcessorStrategy");
+        feeSectionProcessorStrategy = (FeeSectionProcessorStrategy)context.getBean("v" + version + "FeeSectionProcessorStrategy");
     }
 
 
@@ -26,10 +26,10 @@ public class FeeSectionProcessorContext implements CompensationChainGenerator {
 
 
     @Override
-    public void process(FileWriter writer, String version) throws Exception{
+    public void process(FileWriter writer) throws Exception{
         this.feeSectionProcessorStrategy.execute(writer);
         if(next != null)
-         next.process(writer,version);
+         next.process(writer);
 
     }
 

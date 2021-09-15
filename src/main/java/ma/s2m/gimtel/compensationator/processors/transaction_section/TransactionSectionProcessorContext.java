@@ -15,7 +15,7 @@ public class TransactionSectionProcessorContext implements CompensationChainGene
 
 
     public TransactionSectionProcessorContext(@Value("${compensation.version}") String version, ApplicationContext context){
-        transactionSectionProcessorStrategy = (TransactionSectionProcessorStrategy)context.getBean(version + "TransactionSectionProcessorStrategy");
+        transactionSectionProcessorStrategy = (TransactionSectionProcessorStrategy)context.getBean("v" + version + "TransactionSectionProcessorStrategy");
     }
 
 
@@ -26,10 +26,10 @@ public class TransactionSectionProcessorContext implements CompensationChainGene
 
 
     @Override
-    public void process(FileWriter writer, String version) throws Exception{
+    public void process(FileWriter writer) throws Exception{
         this.transactionSectionProcessorStrategy.execute(writer);
         if(next != null)
-         next.process(writer,version);
+         next.process(writer);
 
     }
 

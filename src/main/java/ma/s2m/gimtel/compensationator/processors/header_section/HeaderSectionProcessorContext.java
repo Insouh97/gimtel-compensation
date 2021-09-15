@@ -15,7 +15,7 @@ public class HeaderSectionProcessorContext implements CompensationChainGenerator
 
 
     public HeaderSectionProcessorContext(@Value("${compensation.version}") String version, ApplicationContext context){
-        headerSectionProcessorStrategy = (HeaderSectionProcessorStrategy)context.getBean(version + "HeaderSectionProcessorStrategy");
+        headerSectionProcessorStrategy = (HeaderSectionProcessorStrategy)context.getBean("v" + version + "HeaderSectionProcessorStrategy");
     }
 
 
@@ -26,10 +26,10 @@ public class HeaderSectionProcessorContext implements CompensationChainGenerator
 
 
     @Override
-    public void process(FileWriter writer, String version) throws Exception{
+    public void process(FileWriter writer) throws Exception{
         this.headerSectionProcessorStrategy.execute(writer);
         if(next != null)
-         next.process(writer,version);
+         next.process(writer);
 
     }
 

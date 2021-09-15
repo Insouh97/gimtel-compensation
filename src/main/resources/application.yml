@@ -1,0 +1,9 @@
+#ENV
+compensation:
+    version: 1
+
+
+server:
+  port: 9007
+
+

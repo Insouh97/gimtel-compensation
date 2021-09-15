@@ -16,7 +16,7 @@ public class SummarySectionProcessorContext implements CompensationChainGenerato
 
 
     public SummarySectionProcessorContext(@Value("${compensation.version}") String version, ApplicationContext context){
-        summarySectionProcessorStrategy = (SummarySectionProcessorStrategy)context.getBean(version + "SummarySectionProcessorStrategy");
+        summarySectionProcessorStrategy = (SummarySectionProcessorStrategy)context.getBean("v" + version + "SummarySectionProcessorStrategy");
     }
 
 
@@ -27,10 +27,10 @@ public class SummarySectionProcessorContext implements CompensationChainGenerato
 
 
     @Override
-    public void process(FileWriter writer, String version) throws Exception{
+    public void process(FileWriter writer) throws Exception{
         this.summarySectionProcessorStrategy.execute(writer);
         if(next != null)
-         next.process(writer,version);
+         next.process(writer);
 
     }
 
