@@ -8,7 +8,12 @@ import ma.s2m.gimtel.compensationator.processors.transaction_section.Transaction
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.util.ArrayUtils;
+
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class CompensationFileGeneratorService {
@@ -51,8 +56,12 @@ public class CompensationFileGeneratorService {
 
 
     public void handle() throws Exception{
+
+        byte [] content = {};
+        content = headerSectionProcessorContext.process(content);
+        System.out.println(new String(content));
         FileWriter writer = new FileWriter(this.outputFileDir);
-        headerSectionProcessorContext.process(writer);
+        writer.write(new String(content));
         writer.close();
     }
 

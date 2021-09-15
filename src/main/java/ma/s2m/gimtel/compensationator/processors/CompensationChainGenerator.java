@@ -5,5 +5,5 @@ import java.io.FileWriter;
 public interface CompensationChainGenerator {
 
     public void setNextInChain(CompensationChainGenerator compensationChainGenerator);
-    public void process(FileWriter writer) throws Exception;
+    public byte [] process(byte [] bytes) throws Exception;
 }

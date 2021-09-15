@@ -6,19 +6,29 @@ import org.springframework.stereotype.Component;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class V2FeeSectionProcessorStrategy implements FeeSectionProcessorStrategy {
+
     @Override
-    public void execute(FileWriter writer) throws Exception {
+    public byte [] execute(byte [] bytes) throws Exception {
 
-        writer.write("v2FS ("+StaticData.feeDtos.length +")\n");
+        StringBuilder feeBuilder = new StringBuilder();
+        feeBuilder.append("v2FS ("+StaticData.feeDtos.length +")\n");
+
         Arrays.asList(StaticData.feeDtos).forEach(fr -> {
-            try {
-                writer.write("FR#  " + fr.getId() + " , " + fr.getFee() +"\n"  );
-            }catch (IOException io){io.printStackTrace();}
-
+            feeBuilder.append("FR#  " + fr.getId() + " , " + fr.getFee() +"\n"  );
         });
+
+        byte [] feeSection = feeBuilder.toString().getBytes();
+        byte[] allByteArray = new byte[bytes.length + feeSection.length];
+        ByteBuffer buff = ByteBuffer.wrap(allByteArray);
+        buff.put(bytes);
+        buff.put(feeSection);
+        return buff.array();
     }
 }

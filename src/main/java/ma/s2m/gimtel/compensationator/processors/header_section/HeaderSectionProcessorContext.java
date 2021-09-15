@@ -26,11 +26,11 @@ public class HeaderSectionProcessorContext implements CompensationChainGenerator
 
 
     @Override
-    public void process(FileWriter writer) throws Exception{
-        this.headerSectionProcessorStrategy.execute(writer);
+    public byte [] process(byte [] bytes) throws Exception{
+        bytes = this.headerSectionProcessorStrategy.execute(bytes);
         if(next != null)
-         next.process(writer);
-
+         return next.process(bytes);
+        return  bytes;
     }
 
 }

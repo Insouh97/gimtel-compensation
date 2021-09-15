@@ -6,20 +6,30 @@ import org.springframework.stereotype.Component;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 
 @Component
 public class V1TransactionSectionProcessorStrategy implements TransactionSectionProcessorStrategy {
+
     @Override
-    public void execute(FileWriter writer) throws Exception {
+    public byte [] execute(byte [] bytes) throws Exception {
 
-        writer.write("TS ("+StaticData.transactionDtos.length +")\n");
+        StringBuilder transactionBuilder = new StringBuilder();
+
+        transactionBuilder.append("TS ("+StaticData.transactionDtos.length +")\n");
         Arrays.asList(StaticData.transactionDtos).forEach(tr -> {
-            try {
-                writer.write("TR#  " + tr.getId() + " , " + tr.getTrType() +"\n"  );
-            }catch (IOException io){io.printStackTrace();}
 
+                transactionBuilder.append("TR#  " + tr.getId() + " , " + tr.getTrType() +"\n"  );
         });
+
+        byte [] transactionSection = transactionBuilder.toString().getBytes();
+        byte[] allByteArray = new byte[bytes.length + transactionSection.length];
+        ByteBuffer buff = ByteBuffer.wrap(allByteArray);
+        buff.put(bytes);
+        buff.put(transactionSection);
+
+        return buff.array();
     }
 }

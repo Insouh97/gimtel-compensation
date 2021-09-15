@@ -1,6 +1,6 @@
 #ENV
 compensation:
-    version: 1
+    version: 2
     outputFileDir: C:\Users\Dell\Documents\outputGimtelCompensation\output.csv
 
 

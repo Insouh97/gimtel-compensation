@@ -27,10 +27,11 @@ public class SummarySectionProcessorContext implements CompensationChainGenerato
 
 
     @Override
-    public void process(FileWriter writer) throws Exception{
-        this.summarySectionProcessorStrategy.execute(writer);
+    public byte [] process(byte [] bytes) throws Exception{
+        bytes = this.summarySectionProcessorStrategy.execute(bytes);
         if(next != null)
-         next.process(writer);
+         return next.process(bytes);
+        return bytes;
 
     }
 

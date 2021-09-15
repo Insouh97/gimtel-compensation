@@ -26,11 +26,11 @@ public class TransactionSectionProcessorContext implements CompensationChainGene
 
 
     @Override
-    public void process(FileWriter writer) throws Exception{
-        this.transactionSectionProcessorStrategy.execute(writer);
+    public byte [] process(byte [] bytes) throws Exception{
+        bytes = this.transactionSectionProcessorStrategy.execute(bytes);
         if(next != null)
-         next.process(writer);
-
+         return next.process(bytes);
+        return bytes;
     }
 
 }

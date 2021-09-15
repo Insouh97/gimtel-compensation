@@ -26,11 +26,11 @@ public class FeeSectionProcessorContext implements CompensationChainGenerator {
 
 
     @Override
-    public void process(FileWriter writer) throws Exception{
-        this.feeSectionProcessorStrategy.execute(writer);
+    public byte [] process(byte [] bytes) throws Exception{
+        bytes = this.feeSectionProcessorStrategy.execute(bytes);
         if(next != null)
-         next.process(writer);
-
+         return  next.process(bytes);
+        return bytes;
     }
 
 }

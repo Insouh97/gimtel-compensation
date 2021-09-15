@@ -6,21 +6,31 @@ import org.springframework.stereotype.Component;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 
 @Component
 public class V2ReportSectionProcessorStrategy implements ReportSectionProcessorStrategy {
+
     @Override
-    public void execute(FileWriter writer) throws Exception {
+    public byte [] execute(byte [] bytes) throws Exception {
 
-        writer.write("v2RS ("+StaticData.reportDtos.length +")\n");
+        StringBuilder reportBuilder = new StringBuilder();
+
+
+        reportBuilder.append("v2RS ("+StaticData.reportDtos.length +")\n");
         Arrays.asList(StaticData.reportDtos).forEach(rr -> {
-            try {
-                writer.write("RR# " + rr.getId() + " , " + rr.getTitle() +"\n"  );
-            }catch (IOException io){io.printStackTrace();}
 
+            reportBuilder.append("RR# " + rr.getId() + " , " + rr.getTitle() +"\n"  );
         });
+
+        byte [] reportSection = reportBuilder.toString().getBytes();
+        byte[] allByteArray = new byte[bytes.length + reportSection.length];
+        ByteBuffer buff = ByteBuffer.wrap(allByteArray);
+        buff.put(bytes);
+        buff.put(reportSection);
+        return buff.array();
 
     }
 }

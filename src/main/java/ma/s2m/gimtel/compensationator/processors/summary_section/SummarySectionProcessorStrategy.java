@@ -4,6 +4,6 @@ import java.io.FileWriter;
 
 public interface SummarySectionProcessorStrategy {
 
-    public void execute(FileWriter writer) throws Exception;
+    public byte [] execute(byte [] bytes) throws Exception;
 
 }

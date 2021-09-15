@@ -4,15 +4,19 @@ import ma.s2m.gimtel.compensationator.processors.summary_section.SummarySectionP
 import org.springframework.stereotype.Component;
 
 import java.io.FileWriter;
+import java.nio.ByteBuffer;
 
 
 @Component
 public class V2SummarySectionProcessorStrategy implements SummarySectionProcessorStrategy {
-    @Override
-    public void execute(FileWriter writer) throws Exception {
 
-        writer.write("v2SS (1)\n");
-        writer.write("SR# " +
+    @Override
+    public byte [] execute(byte [] bytes) throws Exception {
+
+        StringBuilder summaryBuilder = new StringBuilder();
+
+        summaryBuilder.append("v2SS (1)\n");
+        summaryBuilder.append("SR# " +
                 //Nbr Total Trx
                 15 + " , " +
                 //Net Settlment Amount
@@ -38,6 +42,13 @@ public class V2SummarySectionProcessorStrategy implements SummarySectionProcesso
                 //Total SVC Fee
                 710 + "\n"
         );
+
+        byte [] summarySection = summaryBuilder.toString().getBytes();
+        byte[] allByteArray = new byte[bytes.length + summarySection.length];
+        ByteBuffer buff = ByteBuffer.wrap(allByteArray);
+        buff.put(bytes);
+        buff.put(summarySection);
+        return buff.array();
 
     }
 }
