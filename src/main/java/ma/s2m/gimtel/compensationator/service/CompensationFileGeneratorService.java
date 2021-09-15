@@ -6,6 +6,7 @@ import ma.s2m.gimtel.compensationator.processors.report_section.ReportSectionPro
 import ma.s2m.gimtel.compensationator.processors.summary_section.SummarySectionProcessorContext;
 import ma.s2m.gimtel.compensationator.processors.transaction_section.TransactionSectionProcessorContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.FileWriter;
 
@@ -24,16 +25,20 @@ public class CompensationFileGeneratorService {
 
     private SummarySectionProcessorContext summarySectionProcessorContext;
 
+    private String outputFileDir;
 
-    public CompensationFileGeneratorService(HeaderSectionProcessorContext h,TransactionSectionProcessorContext t,
-                                            FeeSectionProcessorContext f,ReportSectionProcessorContext r,
-                                            SummarySectionProcessorContext s){
+
+    public CompensationFileGeneratorService(HeaderSectionProcessorContext h, TransactionSectionProcessorContext t,
+                                            FeeSectionProcessorContext f, ReportSectionProcessorContext r,
+                                            SummarySectionProcessorContext s,
+                                            @Value("${compensation.outputFileDir}") String outputFileDir){
 
         headerSectionProcessorContext = h;
         transactionSectionProcessorContext = t;
         feeSectionProcessorContext = f;
         reportSectionProcessorContext = r;
         summarySectionProcessorContext = s;
+        this.outputFileDir = outputFileDir;
         this.init();
     }
 
@@ -46,7 +51,7 @@ public class CompensationFileGeneratorService {
 
 
     public void handle() throws Exception{
-        FileWriter writer = new FileWriter("C:\\Users\\Dell\\Documents\\outputGimtelCompensation\\output.csv");
+        FileWriter writer = new FileWriter(this.outputFileDir);
         headerSectionProcessorContext.process(writer);
         writer.close();
     }
